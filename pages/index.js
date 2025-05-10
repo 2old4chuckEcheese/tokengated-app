@@ -1,8 +1,7 @@
-
 import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
-import { ethers } from 'ethers';
+import { BrowserProvider, Contract, formatUnits } from 'ethers';
 
 const TOKEN_CONTRACT_ADDRESS = '0xf67bf182655C29C4202a9654BD509a8c703Ff217';
 const TOKEN_ABI = [
@@ -20,11 +19,11 @@ export default function Home() {
   async function checkAccess() {
     if (!window.ethereum || !address) return;
     setChecking(true);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_ABI, provider);
+    const provider = new BrowserProvider(window.ethereum);
+    const contract = new Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_ABI, provider);
     const balance = await contract.balanceOf(address);
     const decimals = await contract.decimals();
-    const formatted = ethers.utils.formatUnits(balance, decimals);
+    const formatted = formatUnits(balance, decimals);
     setHasAccess(parseFloat(formatted) > 0);
     setChecking(false);
   }
