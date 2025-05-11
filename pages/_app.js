@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public.js';
+import { publicProvider } from 'wagmi/providers/public';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 
 const { publicClient } = configureChains([mainnet], [publicProvider()]);
