@@ -1,4 +1,4 @@
-// import '../styles/globals.css';
+// import '../styles/globals.css'; // Revist when we can get tailwind to work
 import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { mainnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
