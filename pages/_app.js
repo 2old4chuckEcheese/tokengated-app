@@ -1,18 +1,23 @@
 // import '../styles/globals.css'; // Revist when we can get tailwind to work
 import { WagmiConfig, createConfig, configureChains } from 'wagmi';
-import { mainnet }                        from '@wagmi/chains';
-import { publicProvider }                 from '@wagmi/core/providers/public';
-import { InjectedConnector }              from '@wagmi/connectors';
+import { mainnet }                        from 'wagmi/chains';
+import { createPublicClient, http }       from 'viem';
+import { InjectedConnector }              from 'wagmi/connectors';
 
-const { publicClient } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet],
-  [publicProvider()]
+  [
+    ({ chain }) =>
+     createPublicClient({
+        chain,
+       transport: http(),
+     }),
+  ]
 );
 
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: [new InjectedConnector()],
-  publicClient
+connectors: [new InjectedConnector({ chains })],
+publicClient,
+webSocketPublicClient,
 });
 
 export default function MyApp({ Component, pageProps }) {
